@@ -196,7 +196,7 @@ If you have run out of energy or time for your project, put a note at the top of
 Trong thư mục gốc của dự án, chạy lệnh sau để build Docker image:
 
 ```bash
- docker build -t <tên-image-của-bạn> .
+ docker-compose up --build
 ```
 
 --Kiểm tra Docker image đã được tạo:
@@ -210,7 +210,7 @@ Sau khi build xong, bạn có thể kiểm tra image đã được tạo thành 
 Chạy lệnh sau để khởi động ứng dụng trong Docker container, ánh xạ port 4000 của container với port 4000 trên máy của bạn:
 
 ```bash
-docker run -p 4000:4000 <tên-image-của-bạn>
+docker-compose up
 ```
 
 --Verify Docker Image Hoạt Động
