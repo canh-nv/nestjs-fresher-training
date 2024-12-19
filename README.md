@@ -210,7 +210,7 @@ Sau khi build xong, bạn có thể kiểm tra image đã được tạo thành 
 Chạy lệnh sau để khởi động ứng dụng trong Docker container, ánh xạ port 4000 của container với port 4000 trên máy của bạn:
 
 ```bash
-docker-compose up
+docker run -p 4000:4000 <tên-image-của-bạn>
 ```
 
 --Verify Docker Image Hoạt Động
