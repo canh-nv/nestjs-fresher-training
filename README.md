@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
@@ -174,58 +172,76 @@ Show your appreciation to those who have contributed to the project.
 
 For open source projects, say how it is licensed.
 
-## Project status
-
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
-
-> > > > > > > bddc6471749228d3650c1c6c51a58d1934894838
-
 ### Clone dự án
 
-1. Clone repository về máy của bạn:
+1. Clone the repository to your local machine
 
    ```bash
    git clone <repository-url>
    cd <repository-directory>
    ```
 
-2. cài đặt các dependencies của dự án
-   npm install
+2. Install the project dependencies
 
---Build Docker image:
-Trong thư mục gốc của dự án, chạy lệnh sau để build Docker image:
+   ```bash
+   docker-compose up --build
+   ```
+
+3. Build the Docker Image
+   In the root directory of the project, run the following command to build the Docker image:
 
 ```bash
  docker-compose up --build
 ```
 
---Kiểm tra Docker image đã được tạo:
-Sau khi build xong, bạn có thể kiểm tra image đã được tạo thành công bằng lệnh:
+This command will use the Dockerfile and docker-compose.yml to build the image and run the containers.
+
+4. Verify the Docker Image has been created
+   Sau khi build xong, bạn có thể kiểm tra image đã được tạo thành công bằng lệnh:
 
 ```bash
  docker images
 ```
 
---Chạy Docker Container
-Chạy lệnh sau để khởi động ứng dụng trong Docker container, ánh xạ port 4000 của container với port 4000 trên máy của bạn:
+5. Run the Docker Container
+   Run the following command to start the application in the Docker container, mapping the container's port 4000 to port 4000 on your machine:
 
 ```bash
-docker run -p 4000:4000 <tên-image-của-bạn>
+docker run -p 4000:4000 <your-image-name>
 ```
 
---Verify Docker Image Hoạt Động
-Để kiểm tra xem Docker container đã hoạt động đúng không, bạn có thể thực hiện một số bước kiểm tra API.
+Replace <your-image-name> with the name of the image you created from the Dockerfile.
 
---Kiểm tra bằng cách gọi API:
-Mở trình duyệt hoặc sử dụng công cụ như Postman hoặc curl để gửi yêu cầu đến một endpoint trong ứng dụng. Ví dụ, nếu bạn có một API tại POST /auth/register, bạn có thể gửi yêu cầu như sau:
+6. Verify Docker Image is Working
+   To check if the Docker container is running correctly, you can perform some API tests.
 
-Postman: Gửi yêu cầu GET đến http://localhost:4000/auth/register.
+6.1 Check by calling the API
+You can use a browser, Postman, or curl to send a request to an endpoint in the application.
 
-Curl: Gửi yêu cầu POST đến http://localhost:4000/auth/register
+For example, if you have an API at /auth/register, you can send the request as follows:
+Postman: Send a POST request to http://localhost:4000/auth/register.
+Curl: Send a POST request to http://localhost:4000/auth/register.
 
-curl http://localhost:4000/auth/register
+```bash
+curl -X POST http://localhost:4000/auth/register -d "your data here"
+```
 
-Nếu ứng dụng hoạt động đúng,sau khi nhập dữ liệu bạn sẽ nhận được phản hồi như sau
+If the application is working correctly, after sending the request, you should receive the following response:
 {
 "success": true,
 }
+
+7. Run in Production Mode
+   After the Docker container is up and running, you can use the npm run start:prod command to run the application in production mode (when not using Docker).
+
+   ```bash
+   npm run start:prod
+   ```
+
+   NOTE:
+
+   Copy .env.example to .env
+
+   Ensure that you have correctly created the Dockerfile and docker-compose.yml for your project.
+
+   If any API requires authorization (e.g., /auth/register), make sure you have prepared the necessary token or other required information to make the request.
