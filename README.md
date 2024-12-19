@@ -195,12 +195,18 @@ If you have run out of energy or time for your project, put a note at the top of
 --Build Docker image:
 Trong thư mục gốc của dự án, chạy lệnh sau để build Docker image:
 docker build -t <tên-image-của-bạn> .
+
+
 --Kiểm tra Docker image đã được tạo:
 Sau khi build xong, bạn có thể kiểm tra image đã được tạo thành công bằng lệnh:
 docker images
+
+
 --Chạy Docker Container
 Chạy lệnh sau để khởi động ứng dụng trong Docker container, ánh xạ port 4000 của container với port 4000 trên máy của bạn:
 docker run -p 4000:4000 <tên-image-của-bạn>
+
+
 --Verify Docker Image Hoạt Động
 Để kiểm tra xem Docker container đã hoạt động đúng không, bạn có thể thực hiện một số bước kiểm tra API.
 
