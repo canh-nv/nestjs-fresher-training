@@ -1,34 +1,35 @@
-# Sử dụng Node.js chính thức làm base image
+# Use official Node.js as the base image
 FROM node:18 AS build
 
-# Đặt thư mục làm việc trong container
+# Set the working directory inside the container
 WORKDIR /usr/src/app
 
-# Sao chép package.json và package-lock.json
+# Copy package.json and package-lock.json
 COPY package*.json ./ 
 
-# Cài đặt các dependencies
+# Install dependencies
 RUN npm install
 
-# Sao chép toàn bộ mã nguồn vào container
+# Copy the entire source code into the container
 COPY . .
 
-# Biên dịch ứng dụng NestJS từ TypeScript sang JavaScript
+# Build the NestJS application from TypeScript to JavaScript
 RUN npm run build
 
-# Tạo image cuối cùng để chạy ứng dụng
+# Create the final image for running the application
 FROM node:18
 
-# Đặt thư mục làm việc trong container
+# Set the working directory inside the container
 WORKDIR /usr/src/app
 
-# Sao chép thư mục dist và các dependencies từ build stage vào image cuối cùng
+# Copy the dist directory and dependencies from the build stage into the final image
 COPY --from=build /usr/src/app/dist /usr/src/app/dist
 COPY --from=build /usr/src/app/node_modules /usr/src/app/node_modules
 COPY --from=build /usr/src/app/package*.json /usr/src/app/
 
-# Expose cổng mà ứng dụng sẽ chạy (ví dụ cổng 4000)
+# Expose the port the application will run on (e.g., port 4000)
 EXPOSE 4000
 
-# Lệnh chạy ứng dụng khi container được khởi động
+# Command to run the application when the container starts
 CMD ["npm", "run", "start:prod"]
+
