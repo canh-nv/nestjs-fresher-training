@@ -80,7 +80,7 @@ Below are the steps to build the Docker image, run the application in a containe
 
 Before building the Docker image, make sure that Docker is installed on your machine. If not, you can install Docker by following the instructions on docker.com.
 
-### Clone dự án
+### Clone the Project
 
 1. Clone the repository to your local machine:
 
@@ -90,29 +90,35 @@ Before building the Docker image, make sure that Docker is installed on your mac
    ```
 
 2. Install project dependencies:
-   
-  ```bash
-   npm install
-   ```
+
+```bash
+ npm install
+```
+
 --Build Docker image:
 In the root directory of the project, run the following command to build the Docker image:
- ```bash
+
+```bash
 docker-compose up --build
-   ```
+```
 
 --Verify Docker Image Creation
 After the build completes, you can check if the image was created successfully by running:
 
- ```bash
+```bash
 docker images
-   ```
+```
+
 --Run Docker Container
 Run the following command to start the application inside a Docker container, mapping port 4000 of the container to port 4000 on your local machine:
 
---Verify Docker Image Hoạt Động
- ```bash
-docker run -p 4000:4000 <your-image-name>
-   ```
+--Verify Docker Image
+
+```bash
+docker run -d -p 4000:4000 <your-image-name>
+
+```
+
 To verify if the Docker container is running properly, you can perform some API checks
 
 --Test API
@@ -122,13 +128,13 @@ Postman: Send a GET request to http://localhost:4000/auth/register.
 
 Curl: Send a POST request to http://localhost:4000/auth/register:
 
-
- ```bash
+```bash
 curl http://localhost:4000/auth/register
-   ```
+```
 
 If the application is working correctly, after submitting the data, you should receive a response like this:
 {
 "success": true,
 }
+
 # Remember copy .env.example to .env
