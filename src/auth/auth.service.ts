@@ -35,7 +35,6 @@ export class AuthService {
     return { access_token, refresh_token };
   }
 
-  // Đã thay đổi từ bcrypt.hash thành bcryptjs.hash
   async hashPassword(password: string) {
     const saltOrRounds = 10;
     const hash = await bcrypt.hash(password, saltOrRounds);
@@ -55,9 +54,9 @@ export class AuthService {
     return createAccount;
   }
 
-  // Đã thay đổi từ bcrypt.compareSync thành bcryptjs.compare
+
   async checkPassword(password: string, hash: string) {
-    return await bcrypt.compare(password, hash); // bcryptjs sử dụng async compare
+    return await bcrypt.compare(password, hash);
   }
 
   async login(loginDTO: loginDTO): Promise<any> {
