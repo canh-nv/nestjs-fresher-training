@@ -65,7 +65,7 @@ export class AuthService {
       throw new BadRequestException('Wrong email or password!');
     }
 
-    const comparePass = await bcrypt.compare(loginDTO.password, findUser.password); // sử dụng bcryptjs để so sánh
+    const comparePass = await bcrypt.compare(loginDTO.password, findUser.password); 
     if (!comparePass) {
       throw new BadRequestException('Wrong email or password!');
     }
