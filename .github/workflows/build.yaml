@@ -1,0 +1,37 @@
+name: Docker Build and Deploy
+
+on:
+  push:
+    branches:
+      - main # Trigger this workflow on push to the 'main' branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Use the latest version of Ubuntu
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Docker
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Step 3: Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }} # Use secret for Docker Hub username
+          password: ${{ secrets.DOCKER_PASSWORD }} # Use secret for Docker Hub password or access token
+
+      # Step 4: Build Docker image from Dockerfile
+      - name: Build Docker Image
+        run: |
+          docker build -t my-app -f Dockerfile.prod .
+
+      # Step 5: Push the Docker image to Docker Hub
+      - name: Push Docker Image
+        run: |
+          docker tag my-app my-dockerhub-username/my-app:latest
+          docker push my-dockerhub-username/my-app:latest
