@@ -7,5 +7,4 @@
 !tsconfig.json
 !tsconfig.build.json
 !nestjs-cli.json
-!Dockerfile
 !src/
