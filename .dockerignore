@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# Include necessary files
+!package.json
+!package-lock.json
+!tsconfig.json
+!tsconfig.build.json
+!nestjs-cli.json
+!src/

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AuthService } from './auth.service';
 import { registerUserDTO } from './dto/register.dto';
 import { loginDTO } from './dto/login.dto';
-import { Public } from '../../metadata/metadata';
+import { Public } from '../metadata/metadata';
 
 @Controller('auth')
 export class AuthController {
