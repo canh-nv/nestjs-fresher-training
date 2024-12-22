@@ -5,7 +5,6 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // xem xet dau vao du lieu
   app.useGlobalPipes(new ValidationPipe());
 
   app.enableCors({
@@ -17,7 +16,7 @@ async function bootstrap() {
   process.on('SIGINT', async () => {
     console.log('Received SIGINT. Exiting gracefully...');
     await app.close();
-    process.exit(0); 
+    process.exit(0);
   });
   await app.listen(4000);
 }
