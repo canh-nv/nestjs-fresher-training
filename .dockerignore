@@ -1,22 +1,11 @@
+# Ignore everything
+*
 
-dist/
-node_modules/
-
-
-.env
-.env.example
-*.log
-
-
-.git
-.gitignore
-
-
-.vscode/
-*.swp
-*.swo
-
-
-uploads/
-.DS_Store
-.prettierrc
+# Include necessary files
+!package.json
+!package-lock.json
+!tsconfig.json
+!tsconfig.build.json
+!nestjs-cli.json
+!Dockerfile
+!src/
