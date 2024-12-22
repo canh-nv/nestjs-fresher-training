@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { fillterUserDTO } from './dto/filter-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { storageConfig } from 'helper/config';
+import { storageConfig } from '../helper/config';
 import { extname } from 'path';
 
 
