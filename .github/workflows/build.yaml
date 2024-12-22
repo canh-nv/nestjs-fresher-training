@@ -1,7 +1,7 @@
 name: Docker Build and Deploy
 
 on:
-  push:
+  pull_request:
     branches:
       - main # Trigger this workflow on push to the 'main' branch
 
