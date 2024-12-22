@@ -122,14 +122,13 @@ docker run -d -p 4000:4000 <your-image-name>
 To verify if the Docker container is running properly, you can perform some API checks
 
 --Test API
-Open a browser or use a tool like Postman or curl to send a request to an endpoint in the application. For example, if you have an API at POST /auth/register, you can send the following request:
+Open a browser or use a tool like Postman or curl to send a request to an endpoint in the application. For example, if you have an API at GET /health, you can send the following request:
 
-Postman: Send a GET request to http://localhost:4000/auth/register.
-
-Curl: Send a POST request to http://localhost:4000/auth/register:
+Send a GET request to the following URL:
+http://localhost:4000/health.
 
 ```bash
-curl http://localhost:4000/auth/register
+curl http://localhost:4000/health
 ```
 
 If the application is working correctly, after submitting the data, you should receive a response like this:
