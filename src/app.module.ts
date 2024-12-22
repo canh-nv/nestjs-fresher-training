@@ -9,13 +9,14 @@ import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order/order.module';
+import { HealthController } from './health/health.controller';
 
 
 @Module({
-  imports: [ConfigModule.forRoot({isGlobal:true}),DatabaseModule, UserModule
-    ,AuthModule, ProductModule, CategoryModule, CartModule, OrderModule,
+  imports: [ConfigModule.forRoot({ isGlobal: true }), DatabaseModule, UserModule
+    , AuthModule, ProductModule, CategoryModule, CartModule, OrderModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, HealthController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
