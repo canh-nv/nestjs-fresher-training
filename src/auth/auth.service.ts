@@ -15,7 +15,6 @@ import { Cart } from 'src/cart/entities/cart.entity';
 export class AuthService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(Cart) private cartRepository: Repository<Cart>,
     private usersService: UserService,
     private jwt: JwtService,
     private configService: ConfigService
