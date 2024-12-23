@@ -95,4 +95,23 @@ describe('AuthService', () => {
                               expect(result).toBe('hashed_password');
                     })
           })
+          describe('Register', () => {
+                    it('should throw BadRequestException if email exists', async () => {
+                              userRepository.findOne.mockResolvedValueOnce({ id: 1 } as User);
+
+                              await expect(authService.register({ email: payloadTest.email, password: payloadTest.password } as any))
+                                        .rejects.toThrow(BadRequestException);
+                    });
+                    it('should save and return user if email does not exist', async () => {
+                              userRepository.findOne.mockResolvedValueOnce(null);
+                              userRepository.save.mockResolvedValueOnce({ id: 1 } as User);
+                              jest.spyOn(authService, 'hashPassword').mockResolvedValueOnce('hashed_password');
+
+                              const result = await authService.register({ email: payloadTest.email, password: payloadTest.password } as any);
+
+                              expect(result).toEqual({ id: 1 });
+                              expect(userRepository.save).toHaveBeenCalledWith({ email: payloadTest.email, password: 'hashed_password' });
+                    });
+
+          })
 });
