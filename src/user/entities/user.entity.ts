@@ -1,8 +1,8 @@
 
-import { Cart } from 'src/cart/entities/cart.entity';
-import { Order } from 'src/order/entities/order.entity';
+import { Cart } from '../../cart/entities/cart.entity'
+import { Order } from '../../order/entities/order.entity'
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, DeleteDateColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
-import { Exclude, Expose } from 'class-transformer';
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -32,8 +32,8 @@ export class User {
   @Column({ default: '' })
   refresh_token: string;
 
-  @Column({ default: null,nullable:true })
-  avatar:string
+  @Column({ default: null, nullable: true })
+  avatar: string
 
   @CreateDateColumn()
   createAt: Date;
@@ -45,5 +45,5 @@ export class User {
   carts: Cart[];
 
   @OneToMany(() => Order, (order) => order.user)
-  orders: Order[]; 
+  orders: Order[];
 }

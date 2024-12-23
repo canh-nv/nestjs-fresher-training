@@ -1,15 +1,15 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity'
 import { Repository } from 'typeorm';
 import { registerUserDTO } from './dto/register.dto';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import { loginDTO } from './dto/login.dto';
 import { IUser } from './interfaces/iuser.interfaces';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { Cart } from 'src/cart/entities/cart.entity';
+
 
 @Injectable()
 export class AuthService {
