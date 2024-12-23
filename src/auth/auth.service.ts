@@ -54,18 +54,22 @@ export class AuthService {
     return createAccount;
   }
 
-  async checkPassword(password: string, hash: string) {
-    return await bcrypt.compare(password, hash);
+  async checkPassword(password: string, hash: string): Promise<boolean> {
+    const result = await bcrypt.compare(password, hash);
+    console.log('Password comparison result:', result);
+    return result;
   }
 
   async login(loginDTO: loginDTO): Promise<any> {
     const findUser = await this.usersService.findOneByUsername(loginDTO.email);
     if (!findUser) {
+      console.error('User not found for email:', loginDTO.email); // Debugging log
       throw new BadRequestException('Wrong email or password!');
     }
 
-    const comparePass = await bcrypt.compare(loginDTO.password, findUser.password); 
+    const comparePass = await this.checkPassword(loginDTO.password, findUser.password);
     if (!comparePass) {
+      console.error('Password mismatch for user:', loginDTO.email); // Debugging log
       throw new BadRequestException('Wrong email or password!');
     }
 
@@ -77,7 +81,8 @@ export class AuthService {
       role: findUser.role,
     };
 
-    const gToken = this.generateToken(payload);
+    const gToken = await this.generateToken(payload);
+    console.log('Generated tokens for user:', loginDTO.email); // Debugging log
     return gToken;
   }
 
@@ -85,7 +90,7 @@ export class AuthService {
     try {
       const refresh_token = tokenObject.refresh_token;
       const verify = await this.jwt.verifyAsync(refresh_token, {
-        secret: this.configService.get<string>('refresh_key'),
+        secret: this.configService.get<string>('expirein'),
       });
 
       const check = await this.userRepository.findOne({
