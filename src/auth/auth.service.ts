@@ -54,7 +54,6 @@ export class AuthService {
     return createAccount;
   }
 
-
   async checkPassword(password: string, hash: string) {
     return await bcrypt.compare(password, hash);
   }
