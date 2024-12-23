@@ -31,10 +31,6 @@ describe('AuthService', () => {
                                                   },
                                         },
                                         {
-                                                  provide: getRepositoryToken(Cart),
-                                                  useValue: {},
-                                        },
-                                        {
                                                   provide: UserService,
                                                   useValue: {
                                                             findOneByUsername: jest.fn(),
