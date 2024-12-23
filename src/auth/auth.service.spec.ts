@@ -112,6 +112,25 @@ describe('AuthService', () => {
                               expect(result).toEqual({ id: 1 });
                               expect(userRepository.save).toHaveBeenCalledWith({ email: payloadTest.email, password: 'hashed_password' });
                     });
+                    describe('checkPassword', () => {
+                              it('should return true when passwords match', async () => {
+                                        jest.spyOn(bcrypt, 'compare').mockResolvedValueOnce(true);
+
+                                        const result = await authService.checkPassword('password123', 'hashedPassword');
+
+                                        expect(result).toBe(true);
+                                        expect(bcrypt.compare).toHaveBeenCalledWith('password123', 'hashedPassword');
+                              });
+
+                              it('should return false when passwords do not match', async () => {
+                                        jest.spyOn(bcrypt, 'compare').mockResolvedValueOnce(false);
+
+                                        const result = await authService.checkPassword('password123', 'hashedPassword');
+
+                                        expect(result).toBe(false);
+                                        expect(bcrypt.compare).toHaveBeenCalledWith('password123', 'hashedPassword');
+                              });
+                    });
 
           })
 });
