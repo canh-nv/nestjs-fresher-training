@@ -19,6 +19,7 @@ describe('AuthService', () => {
           const payloadTest = {
                     id: 1,
                     email: "test@gmail.com",
+                    password: "123@44",
                     firstName: 'dev',
                     lastName: 'test',
                     role: 'admin'
@@ -86,4 +87,12 @@ describe('AuthService', () => {
                               expect(result).toEqual({ access_token: 'access_token', refresh_token: 'refresh_token' });
                     });
           });
+          describe('hashPassword', () => {
+                    it('Should hash and return hashed password', async () => {
+                              const password = payloadTest.password;
+                              jest.spyOn(bcrypt, 'hash').mockResolvedValueOnce('hashed_password')
+                              const result = await authService.hashPassword(password);
+                              expect(result).toBe('hashed_password');
+                    })
+          })
 });
