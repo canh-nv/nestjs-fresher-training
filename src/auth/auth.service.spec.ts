@@ -54,7 +54,6 @@ describe('AuthService', () => {
 
                     authService = module.get<AuthService>(AuthService);
                     userRepository = module.get<Repository<User>>(getRepositoryToken(User)) as jest.Mocked<Repository<User>>;
-                    cartRepository = module.get<Repository<Cart>>(getRepositoryToken(Cart)) as jest.Mocked<Repository<Cart>>;
                     userService = module.get<UserService>(UserService) as jest.Mocked<UserService>;
                     jwtService = module.get<JwtService>(JwtService) as jest.Mocked<JwtService>;
                     configService = module.get<ConfigService>(ConfigService) as jest.Mocked<ConfigService>;
