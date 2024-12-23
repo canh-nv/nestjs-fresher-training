@@ -2,8 +2,8 @@ import { Controller, Post, Get, Patch, Delete, Param, Body, Req, NotFoundExcepti
 import { CartService } from './cart.service';
 import { CreateCartItemDto } from './dto/createCartItem';
 import { UpdateCartItemDto } from './dto/update-cart.dto';
-import { AuthRequest } from 'src/auth/interfaces/authRequst.interfaces';
-import { OrderService } from 'src/order/order.service';
+import { AuthRequest } from '../auth/interfaces/authRequst.interfaces';
+import { OrderService } from '../order/order.service';
 
 @Controller('cart')
 export class CartController {
