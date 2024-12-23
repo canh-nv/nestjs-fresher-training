@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { Public } from 'src/metadata/metadata';
+import { Public } from '../metadata/metadata';
 
 
 @Public()
