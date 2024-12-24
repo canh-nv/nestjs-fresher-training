@@ -7,7 +7,6 @@ import { UserService } from 'src/user/user.service';
 import { ProductService } from 'src/product/product.service';
 import { UpdateCartItemDto } from './dto/update-cart.dto';
 
-
 @Injectable()
 export class CartService {
   constructor(
@@ -17,10 +16,10 @@ export class CartService {
     private cartItemRepository: Repository<CartItem>,
     private usersService: UserService,
     private productsService: ProductService,
-  ) { }
+  ) {}
   async findOrCreateCart(userId: number): Promise<Cart> {
     let cart = await this.cartRepository.findOne({ where: { user: { id: userId } } });
-   
+
     if (!cart) {
       const user = await this.usersService.findOneById(userId);
       if (!user) {
@@ -31,16 +30,16 @@ export class CartService {
     }
     return cart;
   }
-  async checkCart(userId: number): Promise <Cart | null> {
+  async checkCart(userId: number): Promise<Cart | null> {
     const cart = await this.cartRepository.findOne({
       where: { user: { id: userId } },
-      relations: [ 'items','items.product'],
+      relations: ['items', 'items.product'],
     });
     if (cart) {
       return cart;
-    }else{
+    } else {
       return await this.findOrCreateCart(userId);
-    } 
+    }
   }
   async addItem(userId: number, CreateCartItemDto: CreateCartItemDto): Promise<Cart> {
     try {
@@ -48,12 +47,10 @@ export class CartService {
 
       if (!cart) {
         throw new NotFoundException('deo thay cart');
-        
       }
       if (!cart.items) {
         cart.items = [];
       }
-     
 
       const { productId, quantity } = CreateCartItemDto;
       if (!productId || !quantity) {
@@ -65,18 +62,14 @@ export class CartService {
         throw new NotFoundException('product not found');
       }
 
-      let cartItem = cart.items.find(item =>item.product && item.product.id === productId)
-      if (cartItem ) {
-      console.log(cartItem);
+      let cartItem = cart.items.find((item) => item.product && item.product.id === productId);
+      if (cartItem) {
+        console.log(cartItem);
 
-        cartItem.quantity += quantity
-     
-        
-      } 
-      else {
-     
+        cartItem.quantity += quantity;
+      } else {
         cartItem = this.cartItemRepository.create({ cart, quantity, product });
-        console.log(cartItem.quantity)
+        console.log(cartItem.quantity);
         cart.items.push(cartItem);
       }
       await this.cartItemRepository.save(cartItem);
@@ -86,21 +79,25 @@ export class CartService {
     }
   }
   //update item
-  async updateItem(userId: number, cartItemId: number, updateCartItemDto: UpdateCartItemDto): Promise<Cart> {
+  async updateItem(
+    userId: number,
+    cartItemId: number,
+    updateCartItemDto: UpdateCartItemDto,
+  ): Promise<Cart> {
     const cart = await this.cartRepository.findOne({
       where: { user: { id: userId } },
-      relations: ['items','user'],  
+      relations: ['items', 'user'],
     });
-  
+
     if (!cart) {
       throw new NotFoundException('Cart not found');
     }
-   
-    const cartItem = cart.items.find(item => item.id == cartItemId);
+
+    const cartItem = cart.items.find((item) => item.id == cartItemId);
     if (!cartItem) {
       throw new NotFoundException('Cart item not found');
     }
-  
+
     cartItem.quantity = updateCartItemDto.quantity;
     await this.cartItemRepository.save(cartItem);
     return this.cartRepository.save(cart);
@@ -110,33 +107,36 @@ export class CartService {
     try {
       // Kiểm tra giỏ hàng của người dùng
       const cart = await this.checkCart(userId);
-      
+
       // In giá trị của cartItemId để kiểm tra
       console.log('cartItemId:', cartItemId);
-      
+
       // In giỏ hàng để kiểm tra các mục
-      console.log('Current cart items:', cart.items.map(item => item.id));
-  
+      console.log(
+        'Current cart items:',
+        cart.items.map((item) => item.id),
+      );
+
       // Tìm vị trí của sản phẩm trong giỏ hàng
-      const cartItemIndex = cart.items.findIndex(item => item.id === Number(cartItemId));
-      
+      const cartItemIndex = cart.items.findIndex((item) => item.id === Number(cartItemId));
+
       // In vị trí của cartItem để kiểm tra
       console.log('Found cartItemIndex:', cartItemIndex);
-  
+
       // Nếu không tìm thấy sản phẩm, báo lỗi
       if (cartItemIndex === -1) {
         throw new NotFoundException('Cart item not found');
       }
-  
+
       // Xóa sản phẩm khỏi giỏ hàng
       const [cartItem] = cart.items.splice(cartItemIndex, 1);
-  
+
       // In ra sản phẩm đã xóa để xác nhận
       console.log('Removed cartItem:', cartItem);
-  
+
       // Xóa sản phẩm trong cơ sở dữ liệu
       await this.cartItemRepository.remove(cartItem);
-  
+
       // Lưu giỏ hàng đã cập nhật lại
       return await this.cartRepository.save(cart);
     } catch (error) {
@@ -155,10 +155,7 @@ export class CartService {
   async getCartSummary(userId: number): Promise<Cart> {
     return this.cartRepository.findOne({
       where: { user: { id: userId } },
-      relations: ['items', 'items.product'],  // Đảm bảo nạp đầy đủ quan hệ product
+      relations: ['items', 'items.product'], // Đảm bảo nạp đầy đủ quan hệ product
     });
   }
-
 }
-
-

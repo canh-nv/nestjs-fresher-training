@@ -1,35 +1,42 @@
-import { Product } from "src/product/entities/product.entity";
-import { User } from "src/user/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from 'src/product/entities/product.entity';
+import { User } from 'src/user/entities/user.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Cart {
-          @PrimaryGeneratedColumn()
-          id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-          // đây là phần relation ship
+  // đây là phần relation ship
 
-          //1 user relationship
-          @ManyToOne(() => User, (user) => user.carts)
-          user: User;
-          //2 cartItem relationship
-          @OneToMany(() => CartItem, (cartItem) => cartItem.cart, { eager: true })
-          items: CartItem[];
+  //1 user relationship
+  @ManyToOne(() => User, (user) => user.carts)
+  user: User;
+  //2 cartItem relationship
+  @OneToMany(() => CartItem, (cartItem) => cartItem.cart, { eager: true })
+  items: CartItem[];
 }
 
 @Entity()
 export class CartItem {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    quantity: number; // Số lượng
+  @Column()
+  quantity: number; // Số lượng
 
-    // Mối quan hệ với Cart
-    @ManyToOne(() => Cart, (cart) => cart.items)
-    cart: Cart;
+  // Mối quan hệ với Cart
+  @ManyToOne(() => Cart, (cart) => cart.items)
+  cart: Cart;
 
-    @ManyToOne(()=>Product,(product)=>product.id)
-    product:Product
-   
+  @ManyToOne(() => Product, (product) => product.id)
+  product: Product;
 }

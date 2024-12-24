@@ -11,12 +11,18 @@ import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order/order.module';
 import { HealthController } from './health/health.controller';
 
-
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), DatabaseModule, UserModule
-    , AuthModule, ProductModule, CategoryModule, CartModule, OrderModule,
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    DatabaseModule,
+    UserModule,
+    AuthModule,
+    ProductModule,
+    CategoryModule,
+    CartModule,
+    OrderModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

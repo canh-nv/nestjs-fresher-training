@@ -18,8 +18,8 @@ export class AuthService {
     @InjectRepository(Cart) private cartRepository: Repository<Cart>,
     private usersService: UserService,
     private jwt: JwtService,
-    private configService: ConfigService
-  ) { }
+    private configService: ConfigService,
+  ) {}
 
   async generateToken(payload: IUser) {
     const access_token = await this.jwt.signAsync(payload);
@@ -28,10 +28,7 @@ export class AuthService {
       expiresIn: this.configService.get<string>('expirein'),
     });
 
-    await this.userRepository.update(
-      { email: payload.email },
-      { refresh_token: refresh_token }
-    );
+    await this.userRepository.update({ email: payload.email }, { refresh_token: refresh_token });
     return { access_token, refresh_token };
   }
 
@@ -54,7 +51,6 @@ export class AuthService {
     return createAccount;
   }
 
-
   async checkPassword(password: string, hash: string) {
     return await bcrypt.compare(password, hash);
   }
@@ -65,7 +61,7 @@ export class AuthService {
       throw new BadRequestException('Wrong email or password!');
     }
 
-    const comparePass = await bcrypt.compare(loginDTO.password, findUser.password); 
+    const comparePass = await bcrypt.compare(loginDTO.password, findUser.password);
     if (!comparePass) {
       throw new BadRequestException('Wrong email or password!');
     }
@@ -108,7 +104,7 @@ export class AuthService {
       }
     } catch (error) {
       console.log(error);
-      throw new HttpException("Refresh token is not valid", HttpStatus.BAD_REQUEST);
+      throw new HttpException('Refresh token is not valid', HttpStatus.BAD_REQUEST);
     }
   }
 }
