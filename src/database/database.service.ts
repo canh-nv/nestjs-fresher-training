@@ -22,7 +22,7 @@ import { User } from 'src/user/entities/user.entity';
         synchronize: true,
       }),
       inject: [ConfigService],
-    })
+    }),
   ],
 })
-export class DatabaseModule { }
+export class DatabaseModule {}

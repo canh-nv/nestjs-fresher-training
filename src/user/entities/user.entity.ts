@@ -1,7 +1,15 @@
-
 import { Cart } from 'src/cart/entities/cart.entity';
 import { Order } from 'src/order/entities/order.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, DeleteDateColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  DeleteDateColumn,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
 @Entity()
 export class User {
@@ -15,16 +23,16 @@ export class User {
   lastName: string;
 
   @Column()
-  email: string
+  email: string;
 
   @Column()
-  password: string
+  password: string;
 
   @Column()
-  age: number
+  age: number;
 
   @Column()
-  gender: string
+  gender: string;
 
   @Column({ default: 'User' })
   role: string;
@@ -32,8 +40,8 @@ export class User {
   @Column({ default: '' })
   refresh_token: string;
 
-  @Column({ default: null,nullable:true })
-  avatar:string
+  @Column({ default: null, nullable: true })
+  avatar: string;
 
   @CreateDateColumn()
   createAt: Date;
@@ -45,5 +53,5 @@ export class User {
   carts: Cart[];
 
   @OneToMany(() => Order, (order) => order.user)
-  orders: Order[]; 
+  orders: Order[];
 }

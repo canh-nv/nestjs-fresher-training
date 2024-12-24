@@ -1,4 +1,9 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,8 +13,10 @@ import { Category } from 'src/category/entities/category.entity';
 
 @Injectable()
 export class ProductService {
-  constructor(@InjectRepository(Product) private productRepository: Repository<Product>,
-    @InjectRepository(Category) private categoriesRepository: Repository<Category>) { }
+  constructor(
+    @InjectRepository(Product) private productRepository: Repository<Product>,
+    @InjectRepository(Category) private categoriesRepository: Repository<Category>,
+  ) {}
 
   async create(createProductDto: CreateProductDto) {
     const { categoryId, productName, ...rest } = createProductDto;
@@ -17,12 +24,12 @@ export class ProductService {
     if (!category) {
       throw new NotFoundException('Category not found');
     }
-    const checkExist = await this.productRepository.findOne({ where:{productName}})
+    const checkExist = await this.productRepository.findOne({ where: { productName } });
     if (checkExist) {
       throw new ConflictException('Product exit');
     }
     // Tạo đối tượng Product từ DTO
-    const product = this.productRepository.create({...rest,productName,category});
+    const product = this.productRepository.create({ ...rest, productName, category });
 
     // Lưu vào database
     return await this.productRepository.save(product);
@@ -36,7 +43,7 @@ export class ProductService {
   async findOne(id: number): Promise<Product> {
     const findProduct = await this.productRepository.findOne({ where: { id } });
     if (!findProduct) {
-      throw new BadRequestException('Product not found')
+      throw new BadRequestException('Product not found');
     }
     return findProduct;
   }
@@ -53,9 +60,8 @@ export class ProductService {
   async remove(id: number): Promise<any> {
     const findProduct = await this.productRepository.findOne({ where: { id } });
     if (!findProduct) {
-      throw new BadRequestException('Product not found')
+      throw new BadRequestException('Product not found');
     }
     return await this.productRepository.delete(id);
-
   }
 }
