@@ -4,8 +4,8 @@ import { Public } from 'src/metadata/metadata';
 @Public()
 @Controller('health')
 export class HealthController {
-  @Get()
-  checkHealth() {
-    return { success: true };
-  }
+    @Get()
+    checkHealth() {
+        return { success: true };
+    }
 }

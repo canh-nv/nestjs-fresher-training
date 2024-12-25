@@ -4,31 +4,31 @@ import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'ty
 
 @Entity()
 export class Cart {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  // đây là phần relation ship
+    // đây là phần relation ship
 
-  //1 user relationship
-  @ManyToOne(() => User, (user) => user.carts)
-  user: User;
-  //2 cartItem relationship
-  @OneToMany(() => CartItem, (cartItem) => cartItem.cart, { eager: true })
-  items: CartItem[];
+    //1 user relationship
+    @ManyToOne(() => User, (user) => user.carts)
+    user: User;
+    //2 cartItem relationship
+    @OneToMany(() => CartItem, (cartItem) => cartItem.cart, { eager: true })
+    items: CartItem[];
 }
 
 @Entity()
 export class CartItem {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  quantity: number; // Số lượng
+    @Column()
+    quantity: number; // Số lượng
 
-  // Mối quan hệ với Cart
-  @ManyToOne(() => Cart, (cart) => cart.items)
-  cart: Cart;
+    // Mối quan hệ với Cart
+    @ManyToOne(() => Cart, (cart) => cart.items)
+    cart: Cart;
 
-  @ManyToOne(() => Product, (product) => product.id)
-  product: Product;
+    @ManyToOne(() => Product, (product) => product.id)
+    product: Product;
 }

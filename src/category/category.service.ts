@@ -7,48 +7,48 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoryService {
-  constructor(@InjectRepository(Category) private categoryRepository: Repository<Category>) {}
+    constructor(@InjectRepository(Category) private categoryRepository: Repository<Category>) {}
 
-  async create(createCategoryDto: CreateCategoryDto) {
-    const checkExist = await this.categoryRepository.findOne({
-      where: { categoryName: createCategoryDto.categoryName },
-    });
-    if (checkExist) {
-      throw new BadRequestException('category exist');
+    async create(createCategoryDto: CreateCategoryDto) {
+        const checkExist = await this.categoryRepository.findOne({
+            where: { categoryName: createCategoryDto.categoryName },
+        });
+        if (checkExist) {
+            throw new BadRequestException('category exist');
+        }
+        const createRepository = await this.categoryRepository.create(createCategoryDto);
+        return await this.categoryRepository.save(createRepository);
     }
-    const createRepository = await this.categoryRepository.create(createCategoryDto);
-    return await this.categoryRepository.save(createRepository);
-  }
 
-  async findAll(): Promise<Category[]> {
-    const findAllCate = await this.categoryRepository.find();
-    return findAllCate;
-  }
-
-  async findOne(id: number): Promise<Category> {
-    const find1 = await this.categoryRepository.findOne({ where: { id } });
-    if (!find1) {
-      throw new BadRequestException('Category not found');
+    async findAll(): Promise<Category[]> {
+        const findAllCate = await this.categoryRepository.find();
+        return findAllCate;
     }
-    return find1;
-  }
 
-  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    const checkExits = await this.categoryRepository.findOne({ where: { id } });
-    if (!checkExits) {
-      throw new BadRequestException('Category not found');
+    async findOne(id: number): Promise<Category> {
+        const find1 = await this.categoryRepository.findOne({ where: { id } });
+        if (!find1) {
+            throw new BadRequestException('Category not found');
+        }
+        return find1;
     }
-    const updateCategory = await this.categoryRepository.update(id, updateCategoryDto);
-    const message = 'update success';
-    return { message, updateCategory };
-  }
 
-  async remove(id: number): Promise<any> {
-    const checkExits = await this.categoryRepository.findOne({ where: { id } });
-    if (!checkExits) {
-      throw new BadRequestException('Category Not found');
+    async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+        const checkExits = await this.categoryRepository.findOne({ where: { id } });
+        if (!checkExits) {
+            throw new BadRequestException('Category not found');
+        }
+        const updateCategory = await this.categoryRepository.update(id, updateCategoryDto);
+        const message = 'update success';
+        return { message, updateCategory };
     }
-    const removeCate = await this.categoryRepository.delete(id);
-    return removeCate;
-  }
+
+    async remove(id: number): Promise<any> {
+        const checkExits = await this.categoryRepository.findOne({ where: { id } });
+        if (!checkExits) {
+            throw new BadRequestException('Category Not found');
+        }
+        const removeCate = await this.categoryRepository.delete(id);
+        return removeCate;
+    }
 }

@@ -12,17 +12,17 @@ import { OrderModule } from './order/order.module';
 import { HealthController } from './health/health.controller';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    DatabaseModule,
-    UserModule,
-    AuthModule,
-    ProductModule,
-    CategoryModule,
-    CartModule,
-    OrderModule,
-  ],
-  controllers: [AppController, HealthController],
-  providers: [AppService],
+    imports: [
+        ConfigModule.forRoot({ isGlobal: true }),
+        DatabaseModule,
+        UserModule,
+        AuthModule,
+        ProductModule,
+        CategoryModule,
+        CartModule,
+        OrderModule,
+    ],
+    controllers: [AppController, HealthController],
+    providers: [AppService],
 })
 export class AppModule {}
