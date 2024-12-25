@@ -7,7 +7,9 @@ import { fillterUserDTO } from './dto/filter-user.dto';
 
 @Injectable()
 export class UserService {
-    constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
+    constructor(
+        @InjectRepository(User) private userRepository: Repository<User>,
+    ) {}
 
     async findAll(query: fillterUserDTO): Promise<any> {
         const page = Number(query.page) || 1;
@@ -24,7 +26,16 @@ export class UserService {
             order: { createAt: 'DESC' },
             take: item_per_page,
             skip: skip,
-            select: ['id', 'firstName', 'lastName', 'email', 'age', 'gender', 'role', 'createAt'],
+            select: [
+                'id',
+                'firstName',
+                'lastName',
+                'email',
+                'age',
+                'gender',
+                'role',
+                'createAt',
+            ],
         });
         const lastPage = Math.ceil(total / item_per_page);
         const nextPage = page + 1 > lastPage ? null : page + 1;

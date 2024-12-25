@@ -11,7 +11,8 @@ import { UserService } from 'src/user/user.service';
 export class OrderService {
     constructor(
         @InjectRepository(Order) private orderRepository: Repository<Order>,
-        @InjectRepository(OrderItem) private orderItemRepository: Repository<OrderItem>,
+        @InjectRepository(OrderItem)
+        private orderItemRepository: Repository<OrderItem>,
         private productService: ProductService,
         private userService: UserService,
     ) {}
@@ -46,7 +47,9 @@ export class OrderService {
     }
 
     async findAll(): Promise<Order[]> {
-        return this.orderRepository.find({ relations: ['items', 'items.product'] });
+        return this.orderRepository.find({
+            relations: ['items', 'items.product'],
+        });
     }
 
     async findOrderById(id: number): Promise<Order> {

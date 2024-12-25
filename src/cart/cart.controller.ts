@@ -23,7 +23,10 @@ export class CartController {
     ) {}
 
     @Post('add')
-    addItem(@Req() req: AuthRequest, @Body() createCartItemDto: CreateCartItemDto) {
+    addItem(
+        @Req() req: AuthRequest,
+        @Body() createCartItemDto: CreateCartItemDto,
+    ) {
         const userId = req.user.id;
         return this.cartService.addItem(userId, createCartItemDto);
     }
@@ -63,7 +66,9 @@ export class CartController {
             userId: userId,
             items: cart.items.map((item) => {
                 if (!item.product || !item.product.id) {
-                    throw new NotFoundException('Product not found for cart item');
+                    throw new NotFoundException(
+                        'Product not found for cart item',
+                    );
                 }
                 return {
                     productId: item.product.id,

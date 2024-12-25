@@ -1,4 +1,9 @@
-import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+    BadRequestException,
+    HttpException,
+    HttpStatus,
+    Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { User } from 'src/user/entities/user.entity';
@@ -50,7 +55,10 @@ export class AuthService {
         }
 
         const password = await this.hashPassword(register.password);
-        const createAccount = await this.userRepository.save({ ...register, password });
+        const createAccount = await this.userRepository.save({
+            ...register,
+            password,
+        });
         return createAccount;
     }
 
@@ -59,12 +67,17 @@ export class AuthService {
     }
 
     async login(loginDTO: loginDTO): Promise<any> {
-        const findUser = await this.usersService.findOneByUsername(loginDTO.email);
+        const findUser = await this.usersService.findOneByUsername(
+            loginDTO.email,
+        );
         if (!findUser) {
             throw new BadRequestException('Wrong email or password!');
         }
 
-        const comparePass = await bcrypt.compare(loginDTO.password, findUser.password);
+        const comparePass = await bcrypt.compare(
+            loginDTO.password,
+            findUser.password,
+        );
         if (!comparePass) {
             throw new BadRequestException('Wrong email or password!');
         }
@@ -110,7 +123,10 @@ export class AuthService {
             }
         } catch (error) {
             console.log(error);
-            throw new HttpException('Refresh token is not valid', HttpStatus.BAD_REQUEST);
+            throw new HttpException(
+                'Refresh token is not valid',
+                HttpStatus.BAD_REQUEST,
+            );
         }
     }
 }

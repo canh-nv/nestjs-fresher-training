@@ -8,7 +8,12 @@ import { UserModule } from 'src/user/user.module';
 import { OrderModule } from 'src/order/order.module';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Cart, CartItem]), ProductModule, UserModule, OrderModule],
+    imports: [
+        TypeOrmModule.forFeature([Cart, CartItem]),
+        ProductModule,
+        UserModule,
+        OrderModule,
+    ],
     controllers: [CartController],
     providers: [CartService],
 })

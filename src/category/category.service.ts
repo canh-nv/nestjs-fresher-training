@@ -7,7 +7,10 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoryService {
-    constructor(@InjectRepository(Category) private categoryRepository: Repository<Category>) {}
+    constructor(
+        @InjectRepository(Category)
+        private categoryRepository: Repository<Category>,
+    ) {}
 
     async create(createCategoryDto: CreateCategoryDto) {
         const checkExist = await this.categoryRepository.findOne({
@@ -16,7 +19,8 @@ export class CategoryService {
         if (checkExist) {
             throw new BadRequestException('category exist');
         }
-        const createRepository = await this.categoryRepository.create(createCategoryDto);
+        const createRepository =
+            await this.categoryRepository.create(createCategoryDto);
         return await this.categoryRepository.save(createRepository);
     }
 
@@ -34,17 +38,24 @@ export class CategoryService {
     }
 
     async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-        const checkExits = await this.categoryRepository.findOne({ where: { id } });
+        const checkExits = await this.categoryRepository.findOne({
+            where: { id },
+        });
         if (!checkExits) {
             throw new BadRequestException('Category not found');
         }
-        const updateCategory = await this.categoryRepository.update(id, updateCategoryDto);
+        const updateCategory = await this.categoryRepository.update(
+            id,
+            updateCategoryDto,
+        );
         const message = 'update success';
         return { message, updateCategory };
     }
 
     async remove(id: number): Promise<any> {
-        const checkExits = await this.categoryRepository.findOne({ where: { id } });
+        const checkExits = await this.categoryRepository.findOne({
+            where: { id },
+        });
         if (!checkExits) {
             throw new BadRequestException('Category Not found');
         }

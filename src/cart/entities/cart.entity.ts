@@ -1,13 +1,12 @@
 import { Product } from 'src/product/entities/product.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
+import { OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Cart {
     @PrimaryGeneratedColumn()
     id: number;
-
-    // đây là phần relation ship
 
     //1 user relationship
     @ManyToOne(() => User, (user) => user.carts)
@@ -23,9 +22,8 @@ export class CartItem {
     id: number;
 
     @Column()
-    quantity: number; // Số lượng
+    quantity: number;
 
-    // Mối quan hệ với Cart
     @ManyToOne(() => Cart, (cart) => cart.items)
     cart: Cart;
 

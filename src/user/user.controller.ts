@@ -77,7 +77,10 @@ export class UserController {
         if (!file) {
             throw new BadRequestException('file is required');
         }
-        this.userService.updateAvatar(req.user.id, file.destination + '/' + file.filename);
+        this.userService.updateAvatar(
+            req.user.id,
+            file.destination + '/' + file.filename,
+        );
         return { message: 'Avatar uploaded successfully' };
     }
 }

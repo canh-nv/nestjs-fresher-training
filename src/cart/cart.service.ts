@@ -18,7 +18,9 @@ export class CartService {
         private productsService: ProductService,
     ) {}
     async findOrCreateCart(userId: number): Promise<Cart> {
-        let cart = await this.cartRepository.findOne({ where: { user: { id: userId } } });
+        let cart = await this.cartRepository.findOne({
+            where: { user: { id: userId } },
+        });
 
         if (!cart) {
             const user = await this.usersService.findOneById(userId);
@@ -41,7 +43,10 @@ export class CartService {
             return await this.findOrCreateCart(userId);
         }
     }
-    async addItem(userId: number, CreateCartItemDto: CreateCartItemDto): Promise<Cart> {
+    async addItem(
+        userId: number,
+        CreateCartItemDto: CreateCartItemDto,
+    ): Promise<Cart> {
         try {
             const cart = await this.checkCart(userId);
 
@@ -62,13 +67,19 @@ export class CartService {
                 throw new NotFoundException('product not found');
             }
 
-            let cartItem = cart.items.find((item) => item.product && item.product.id === productId);
+            let cartItem = cart.items.find(
+                (item) => item.product && item.product.id === productId,
+            );
             if (cartItem) {
                 console.log(cartItem);
 
                 cartItem.quantity += quantity;
             } else {
-                cartItem = this.cartItemRepository.create({ cart, quantity, product });
+                cartItem = this.cartItemRepository.create({
+                    cart,
+                    quantity,
+                    product,
+                });
                 console.log(cartItem.quantity);
                 cart.items.push(cartItem);
             }
@@ -118,7 +129,9 @@ export class CartService {
             );
 
             // Tìm vị trí của sản phẩm trong giỏ hàng
-            const cartItemIndex = cart.items.findIndex((item) => item.id === Number(cartItemId));
+            const cartItemIndex = cart.items.findIndex(
+                (item) => item.id === Number(cartItemId),
+            );
 
             // In vị trí của cartItem để kiểm tra
             console.log('Found cartItemIndex:', cartItemIndex);
