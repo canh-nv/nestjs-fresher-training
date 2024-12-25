@@ -73,6 +73,6 @@ export class CartController {
     };
     const order = await this.orderService.create(createOrderDto);
     await this.cartService.clearCart(userId);
-    return { message: 'Checkout successful' };
+    return { message: 'Checkout successful', order };
   }
 }

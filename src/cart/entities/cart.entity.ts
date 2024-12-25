@@ -1,14 +1,6 @@
 import { Product } from 'src/product/entities/product.entity';
 import { User } from 'src/user/entities/user.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Cart {

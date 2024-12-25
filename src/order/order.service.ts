@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,9 +6,6 @@ import { Order, OrderItem } from './entities/order.entity';
 import { Repository } from 'typeorm';
 import { ProductService } from 'src/product/product.service';
 import { UserService } from 'src/user/user.service';
-import { timeStamp } from 'console';
-import { REQUEST_CONTEXT_ID } from '@nestjs/core/router/request/request-constants';
-import { MESSAGES } from '@nestjs/core/constants';
 
 @Injectable()
 export class OrderService {

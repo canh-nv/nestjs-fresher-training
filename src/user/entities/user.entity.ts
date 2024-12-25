@@ -6,11 +6,8 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   DeleteDateColumn,
-  OneToOne,
-  JoinColumn,
   OneToMany,
 } from 'typeorm';
-import { Exclude, Expose } from 'class-transformer';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()

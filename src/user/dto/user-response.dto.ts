@@ -1,5 +1,3 @@
-import { StrictMatchKeysAndValues } from 'typeorm';
-
 export class responeseDTO {
   id: number;
   firstName: string;

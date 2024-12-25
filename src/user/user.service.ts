@@ -1,10 +1,8 @@
-import { BadRequestException, Injectable, Query, Request } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Like, Repository } from 'typeorm';
-import { UpdateResult } from 'typeorm/driver/mongodb/typings';
-import { error } from 'console';
 import { fillterUserDTO } from './dto/filter-user.dto';
 
 @Injectable()

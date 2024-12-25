@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { registerUserDTO } from './dto/register.dto';
 import { loginDTO } from './dto/login.dto';
@@ -14,6 +15,7 @@ export class AuthController {
     try {
       await this.authService.register(register);
       return { success: true };
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return { success: false };
     }
@@ -25,6 +27,7 @@ export class AuthController {
     try {
       const token = await this.authService.login(loginDTO); // Gọi service để lấy token
       return { success: true, token };
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return { success: false };
     }

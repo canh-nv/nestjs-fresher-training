@@ -1,13 +1,9 @@
-import { CartItem } from 'src/cart/entities/cart.entity';
 import { Category } from 'src/category/entities/category.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';

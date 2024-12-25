@@ -40,7 +40,7 @@ export class CategoryService {
     }
     const updateCategory = await this.categoryRepository.update(id, updateCategoryDto);
     const message = 'update success';
-    return message;
+    return { message, updateCategory };
   }
 
   async remove(id: number): Promise<any> {
