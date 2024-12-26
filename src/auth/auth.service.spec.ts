@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { User } from '../user/entities/user.entity';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
 import { Cart } from 'src/cart/entities/cart.entity';
 
 describe('AuthService', () => {
@@ -25,6 +25,14 @@ describe('AuthService', () => {
         firstName: 'dev',
         lastName: 'test',
         role: 'admin',
+        age: 10,
+        gender: 'male',
+        refresh_token: 'string',
+        avatar: 'string',
+        createAt: new Date(),
+        deleteAt: new Date(),
+        carts: [],
+        orders: [],
     };
 
     beforeEach(async () => {
@@ -220,6 +228,99 @@ describe('AuthService', () => {
                     password: '123@44',
                 }),
             ).rejects.toThrow('Wrong email or password!');
+        });
+        it('should return token if email and password match', async () => {
+            // Mock user found with the correct email and password
+            const findUser = {
+                id: 1,
+                email: payloadTest.email,
+                password: 'hashedpassword',
+                firstName: payloadTest.firstName,
+                lastName: payloadTest.lastName,
+                role: payloadTest.role,
+                age: payloadTest.age,
+                gender: payloadTest.gender,
+                refresh_token: payloadTest.refresh_token,
+                avatar: payloadTest.avatar,
+                createAt: payloadTest.createAt,
+                deleteAt: payloadTest.deleteAt,
+                carts: payloadTest.carts,
+                orders: payloadTest.orders,
+            };
+
+            userService.findOneByUsername.mockResolvedValueOnce(findUser);
+
+            // Mock bcrypt.compare to return true (correct password)
+            jest.spyOn(bcrypt, 'compare').mockResolvedValueOnce(true);
+
+            // Mock JwtService to return a token
+            const accessToken = 'access_token';
+            const refreshToken = 'refresh_token';
+            jwtService.signAsync.mockResolvedValueOnce(accessToken);
+            jwtService.signAsync.mockResolvedValueOnce(refreshToken);
+
+            // Call the login method
+            const result = await authService.login({
+                email: payloadTest.email,
+                password: payloadTest.password,
+            });
+
+            // Assertions
+            expect(result).toEqual({
+                access_token: accessToken,
+                refresh_token: refreshToken,
+            });
+            expect(jwtService.signAsync).toHaveBeenCalledTimes(2);
+            expect(jwtService.signAsync).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    email: payloadTest.email,
+                    firstName: payloadTest.firstName,
+                    lastName: payloadTest.lastName,
+                    role: payloadTest.role,
+                }),
+            );
+        });
+        describe('refreshToken', () => {
+            it('should throw HttpException if refresh token is not found in the database', async () => {
+                const refreshToken = 'valid_refresh_token';
+                const tokenObject = { refresh_token: refreshToken };
+
+                jwtService.verifyAsync.mockResolvedValueOnce({
+                    email: 'test@gmail.com',
+                    id: 1,
+                    name: 'dev',
+                    firstName: 'xof',
+                    lastName: 'test',
+                    role: 'admin',
+                });
+                userRepository.findOne.mockResolvedValueOnce(null);
+                await expect(
+                    authService.refreshToken(tokenObject),
+                ).rejects.toThrowError(
+                    new HttpException(
+                        'Refresh token is not valid',
+                        HttpStatus.BAD_REQUEST,
+                    ),
+                );
+            });
+
+            it('should throw HttpException if refresh token is invalid', async () => {
+                const refreshToken = 'invalid_refresh_token';
+                const tokenObject = { refresh_token: refreshToken };
+
+                jwtService.verifyAsync.mockRejectedValueOnce(
+                    new Error('Invalid token'),
+                );
+
+                await expect(
+                    authService.refreshToken(tokenObject),
+                ).rejects.toThrowError(
+                    new HttpException(
+                        'Refresh token is not valid',
+                        HttpStatus.BAD_REQUEST,
+                    ),
+                );
+            });
         });
     });
 });
