@@ -1,7 +1,6 @@
-
 export class UpdateUserDto {
-          firstName: string;
-          lastName: string;
-          age:number
-          gender:string
+    firstName: string;
+    lastName: string;
+    age: number;
+    gender: string;
 }

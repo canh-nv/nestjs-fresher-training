@@ -84,10 +84,10 @@ Before building the Docker image, make sure that Docker is installed on your mac
 
 1. Clone the repository to your local machine:
 
-   ```bash
-   git clone https://github.com/canh-nv/nestjs-fresher-training.git
-   cd nestjs-fresher-training
-   ```
+    ```bash
+    git clone https://github.com/canh-nv/nestjs-fresher-training.git
+    cd nestjs-fresher-training
+    ```
 
 2. Install project dependencies:
 

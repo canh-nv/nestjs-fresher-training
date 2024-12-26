@@ -11,19 +11,22 @@ import { Cart } from 'src/cart/entities/cart.entity';
 import { User } from 'src/user/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Cart]),
-  JwtModule.register({
-    global: true,
-    secret: jwtConstants.secret,
-    signOptions: { expiresIn: '60m' },
-  }),
-  ],
-  controllers: [AuthController],
-  providers: [AuthService, UserService,
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-  ],
+    imports: [
+        TypeOrmModule.forFeature([User, Cart]),
+        JwtModule.register({
+            global: true,
+            secret: jwtConstants.secret,
+            signOptions: { expiresIn: '60m' },
+        }),
+    ],
+    controllers: [AuthController],
+    providers: [
+        AuthService,
+        UserService,
+        {
+            provide: APP_GUARD,
+            useClass: AuthGuard,
+        },
+    ],
 })
-export class AuthModule { }
+export class AuthModule {}
