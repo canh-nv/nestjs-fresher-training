@@ -24,6 +24,7 @@ export class AuthService {
         private usersService: UserService,
         private jwt: JwtService,
         private configService: ConfigService,
+        // eslint-disable-next-line prettier/prettier
     ) {}
 
     async generateToken(payload: IUser) {
@@ -95,16 +96,23 @@ export class AuthService {
     }
 
     async refreshToken(tokenObject: { refresh_token: string }): Promise<any> {
+        const refresh_token = tokenObject.refresh_token;
+
         try {
-            const refresh_token = tokenObject.refresh_token;
             const verify = await this.jwt.verifyAsync(refresh_token, {
                 secret: this.configService.get<string>('refresh_key'),
             });
 
-            const check = await this.userRepository.findOne({
+            const user = await this.userRepository.findOne({
                 where: { email: verify.email, refresh_token },
             });
 
+            if (!user) {
+                throw new HttpException(
+                    'Refresh token is not valid',
+                    HttpStatus.BAD_REQUEST,
+                );
+            }
             const payload: IUser = {
                 firstName: verify.name,
                 lastName: verify.lastName,
@@ -112,17 +120,9 @@ export class AuthService {
                 role: verify.role,
                 id: verify.id,
             };
-
-            if (check) {
-                return this.generateToken(payload);
-            } else {
-                throw new HttpException(
-                    "Refresh token not found in the database'",
-                    HttpStatus.BAD_REQUEST,
-                );
-            }
+            return this.generateToken(payload);
         } catch (error) {
-            console.log(error);
+            console.error('Error in refreshToken:', (error as Error).message);
             throw new HttpException(
                 'Refresh token is not valid',
                 HttpStatus.BAD_REQUEST,
