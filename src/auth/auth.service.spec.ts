@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
@@ -8,12 +9,14 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { User } from '../user/entities/user.entity';
 import { BadRequestException } from '@nestjs/common';
+import { Cart } from 'src/cart/entities/cart.entity';
 
 describe('AuthService', () => {
     let authService: AuthService;
     let userRepository: jest.Mocked<Repository<User>>;
     let jwtService: jest.Mocked<JwtService>;
     let userService: jest.Mocked<UserService>;
+    let cartRepository: jest.Mocked<Repository<Cart>>;
 
     const payloadTest = {
         id: 1,
@@ -54,6 +57,10 @@ describe('AuthService', () => {
                     useValue: {
                         get: jest.fn(),
                     },
+                },
+                {
+                    provide: getRepositoryToken(Cart),
+                    useValue: {},
                 },
             ],
         }).compile();
