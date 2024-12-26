@@ -1,34 +1,37 @@
-import { CartItem } from "src/cart/entities/cart.entity";
-import { Category } from "src/category/entities/category.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Category } from 'src/category/entities/category.entity';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Product {
-          @PrimaryGeneratedColumn()
-          id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-          @Column()
-          productName: string
+    @Column()
+    productName: string;
 
-          @Column()
-          productPrice: number
+    @Column()
+    productPrice: number;
 
-          @Column()
-          productStock: number
+    @Column()
+    productStock: number;
 
-          @CreateDateColumn()
-          createAt: Date;
+    @CreateDateColumn()
+    createAt: Date;
 
-          @UpdateDateColumn()
-          updateAt: Date;
+    @UpdateDateColumn()
+    updateAt: Date;
 
-          @ManyToOne(() => Category, (category) => category.products)
-          category: Category;
-          //relationship với cartItem
+    @ManyToOne(() => Category, (category) => category.products)
+    category: Category;
+    //relationship với cartItem
 
-          // @OneToMany(() => CartItem,(cartItem)=>cartItem.product)
-          // items:CartItem[];
-
-
+    // @OneToMany(() => CartItem,(cartItem)=>cartItem.product)
+    // items:CartItem[];
 }
-

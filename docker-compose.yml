@@ -1,52 +1,59 @@
 services:
-  nestjs_api_prod:
-    build:
-      context: .
-      dockerfile: Dockerfile.prod
-    init: true
-    restart: unless-stopped
-    ports:
-      - '4000:4000'
-    environment:
-      - PORT=4000
-      - DB_HOST=db
-      - DB_USERNAME=root
-      - DB_PASSWORD=123456
-      - DB_DATABASE=testing
-      - DB_PORT=3306
-    depends_on:
-      mysql_db:
-        condition: service_healthy
-    networks:
-      - app-network
-    healthcheck:
-      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:4000/health']
-      interval: 30s
-      timeout: 10s
-      retries: 3
+    nestjs_api_prod:
+        build:
+            context: .
+            dockerfile: Dockerfile.prod
+        init: true
+        restart: unless-stopped
+        ports:
+            - '4000:4000'
+        environment:
+            - PORT=4000
+            - DB_HOST=db
+            - DB_USERNAME=root
+            - DB_PASSWORD=123456
+            - DB_DATABASE=testing
+            - DB_PORT=3306
+        depends_on:
+            mysql_db:
+                condition: service_healthy
+        networks:
+            - app-network
+        healthcheck:
+            test:
+                [
+                    'CMD',
+                    'wget',
+                    '--spider',
+                    '-q',
+                    'http://localhost:4000/health',
+                ]
+            interval: 30s
+            timeout: 10s
+            retries: 3
 
-  mysql_db:
-    image: mysql:latest
-    container_name: db
-    restart: unless-stopped
-    ports:
-      - '3306:3306'
-    environment:
-      MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: testing
-    volumes:
-      - db_data:/var/lib/mysql
-    networks:
-      - app-network
-    healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
-      interval: 30s
-      timeout: 10s
-      retries: 3
+    mysql_db:
+        image: mysql:latest
+        container_name: db
+        restart: unless-stopped
+        ports:
+            - '3306:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: 123456
+            MYSQL_DATABASE: testing
+        volumes:
+            - db_data:/var/lib/mysql
+        networks:
+            - app-network
+        healthcheck:
+            test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+            interval: 30s
+            timeout: 10s
+            retries: 3
 
 volumes:
-  db_data:
+    db_data:
 
 networks:
-  app-network:
-    driver: bridge
+    app-network:
+        driver: bridge
