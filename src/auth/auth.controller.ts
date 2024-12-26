@@ -7,6 +7,7 @@ import { Public } from '../metadata/metadata';
 
 @Controller('auth')
 export class AuthController {
+    // eslint-disable-next-line prettier/prettier
     constructor(private readonly authService: AuthService) {}
 
     @Public()
@@ -15,7 +16,6 @@ export class AuthController {
         try {
             await this.authService.register(register);
             return { success: true };
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             return { success: false };
         }
