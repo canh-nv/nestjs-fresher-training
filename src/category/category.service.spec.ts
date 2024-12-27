@@ -112,4 +112,21 @@ describe('CategoryService', () => {
             expect(result[1].products).toHaveLength(0);
         });
     });
+    describe('FindOne with Products', () => {
+        it('should return category with related products', async () => {
+            const categoryWithProducts = {
+                ...mockCategory,
+                products: [mockProduct],
+            };
+
+            jest.spyOn(repository, 'findOne').mockResolvedValue(
+                categoryWithProducts as any,
+            );
+
+            const result = await service.findOne(1);
+            expect(result).toHaveProperty('products');
+            expect(result.products).toHaveLength(1);
+            expect(result.products[0]).toEqual(mockProduct);
+        });
+    });
 });
