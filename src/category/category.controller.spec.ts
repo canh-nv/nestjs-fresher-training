@@ -45,4 +45,15 @@ describe('CategoryController', () => {
             expect(result).toEqual(createDto);
         });
     });
+    describe('findAll', () => {
+        it('should call service.findAll and return all categories', async () => {
+            const categories = [{ id: 1, categoryName: 'Test' }];
+            mockCategoryService.findAll.mockResolvedValue(categories);
+
+            const result = await controller.findAll();
+
+            expect(sservice.findAll).toHaveBeenCalled();
+            expect(result).toEqual(categories);
+        });
+    });
 });
