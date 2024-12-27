@@ -181,4 +181,37 @@ describe('CategoryService', () => {
             });
         });
     });
+    describe('Remove Category with Products', () => {
+        it('should not allow deletion if category has related products', async () => {
+            const categoryWithProducts = {
+                ...mockCategory,
+                products: [mockProduct],
+            };
+
+            jest.spyOn(repository, 'findOne').mockResolvedValue(
+                categoryWithProducts as any,
+            );
+
+            await expect(service.remove(1)).rejects.toThrow(
+                BadRequestException,
+            );
+        });
+
+        it('should allow deletion if category has no products', async () => {
+            const categoryWithoutProducts = {
+                ...mockCategory,
+                products: [],
+            };
+
+            jest.spyOn(repository, 'findOne').mockResolvedValue(
+                categoryWithoutProducts as any,
+            );
+            jest.spyOn(repository, 'delete').mockResolvedValue({
+                affected: 1,
+            } as any);
+
+            const result = await service.remove(1);
+            expect(result).toEqual({ affected: 1 });
+        });
+    });
 });
