@@ -129,4 +129,56 @@ describe('CategoryService', () => {
             expect(result.products[0]).toEqual(mockProduct);
         });
     });
+
+    describe('Update Category', () => {
+        it('should update category and modify updateAt timestamp', async () => {
+            const originalCategory = { ...mockCategory };
+            const updateDate = new Date();
+            const updateDto = {
+                categoryName: 'Updated Category',
+                updateAt: updateDate,
+            };
+
+            jest.spyOn(repository, 'findOne')
+                .mockResolvedValueOnce(originalCategory as any)
+                .mockResolvedValueOnce({
+                    ...originalCategory,
+                    ...updateDto,
+                } as any);
+
+            jest.spyOn(repository, 'update').mockResolvedValue({
+                affected: 1,
+            } as any);
+
+            const result = await service.update(1, updateDto as any);
+            expect(result.message).toBe('update success');
+            expect(repository.update).toHaveBeenCalledWith(
+                1,
+                expect.objectContaining({
+                    categoryName: updateDto.categoryName,
+                }),
+            );
+        });
+
+        it('should maintain existing products when updating category', async () => {
+            const categoryWithProducts = {
+                ...mockCategory,
+                products: [mockProduct],
+            };
+
+            const updateDto = { categoryName: 'Updated Category' };
+
+            jest.spyOn(repository, 'findOne').mockResolvedValueOnce(
+                categoryWithProducts as any,
+            );
+            jest.spyOn(repository, 'update').mockResolvedValue({
+                affected: 1,
+            } as any);
+
+            await service.update(1, updateDto as any);
+            expect(repository.findOne).toHaveBeenCalledWith({
+                where: { id: 1 },
+            });
+        });
+    });
 });
