@@ -14,6 +14,8 @@ services:
             - DB_PASSWORD=123456
             - DB_DATABASE=testing
             - DB_PORT=3306
+            - refresh_key=this is refresh_key
+            - expirein=1h
         depends_on:
             mysql_db:
                 condition: service_healthy
