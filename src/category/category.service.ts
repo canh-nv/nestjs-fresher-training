@@ -10,6 +10,7 @@ export class CategoryService {
     constructor(
         @InjectRepository(Category)
         private categoryRepository: Repository<Category>,
+        // eslint-disable-next-line prettier/prettier
     ) {}
 
     async create(createCategoryDto: CreateCategoryDto) {
@@ -53,13 +54,22 @@ export class CategoryService {
     }
 
     async remove(id: number): Promise<any> {
-        const checkExits = await this.categoryRepository.findOne({
+        const category = await this.categoryRepository.findOne({
             where: { id },
+            relations: ['products'], // Lấy thêm quan hệ products
         });
-        if (!checkExits) {
+
+        if (!category) {
             throw new BadRequestException('Category Not found');
         }
-        const removeCate = await this.categoryRepository.delete(id);
-        return removeCate;
+
+        if (category.products && category.products.length > 0) {
+            // eslint-disable-next-line prettier/prettier
+            throw new BadRequestException(
+                'Cannot delete category with related products',
+            );
+        }
+
+        return await this.categoryRepository.delete(id);
     }
 }
