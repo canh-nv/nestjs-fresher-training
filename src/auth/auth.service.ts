@@ -24,6 +24,7 @@ export class AuthService {
         private usersService: UserService,
         private jwt: JwtService,
         private configService: ConfigService,
+        // eslint-disable-next-line prettier/prettier
     ) {}
 
     async generateToken(payload: IUser) {
@@ -61,11 +62,6 @@ export class AuthService {
         });
         return createAccount;
     }
-
-    async checkPassword(password: string, hash: string) {
-        return await bcrypt.compare(password, hash);
-    }
-
     async login(loginDTO: loginDTO): Promise<any> {
         const findUser = await this.usersService.findOneByUsername(
             loginDTO.email,
